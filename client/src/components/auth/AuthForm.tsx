@@ -59,7 +59,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ onAuthChange }) => {
 
       // Set success message for signup
       if (!isLogin) {
-        setSuccess("Account created successfully! Welcome to Edulume!");
+        setSuccess("Account created successfully! Welcome to Talvyn AI!");
       }
 
       // Notify parent component to re-check auth status
@@ -70,7 +70,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ onAuthChange }) => {
         () => {
           navigate("/");
         },
-        isLogin ? 100 : 1000
+        isLogin ? 100 : 1000,
       ); // Shorter delay for signup
     } catch (err: any) {
       console.error("❌ Authentication failed:", err);

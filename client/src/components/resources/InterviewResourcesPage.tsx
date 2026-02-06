@@ -210,14 +210,14 @@ const InterviewResourcesPage: React.FC = () => {
           (resource.description &&
             resource.description
               .toLowerCase()
-              .includes(searchTerm.toLowerCase()))
+              .includes(searchTerm.toLowerCase())),
       );
     }
 
     // Apply category filter
     if (selectedCategory) {
       filtered = filtered.filter(
-        (resource) => resource.category === selectedCategory
+        (resource) => resource.category === selectedCategory,
       );
     }
 
@@ -229,7 +229,7 @@ const InterviewResourcesPage: React.FC = () => {
     // Apply difficulty filter
     if (selectedDifficulty) {
       filtered = filtered.filter(
-        (resource) => resource.difficulty === selectedDifficulty
+        (resource) => resource.difficulty === selectedDifficulty,
       );
     }
 
@@ -361,8 +361,8 @@ const InterviewResourcesPage: React.FC = () => {
     <>
       <SEO
         title="Interview Resources"
-        description="Explore curated interview resources for students and professionals on Edulume."
-        canonicalUrl="https://edulume.site/interview-resources"
+        description="Explore curated interview resources for students and professionals on Talvyn AI."
+        canonicalUrl="https://Talvyn AI.site/interview-resources"
       />
       <div className="min-h-screen py-8 px-4">
         <div className="max-w-7xl mx-auto">
@@ -539,7 +539,7 @@ const InterviewResourcesPage: React.FC = () => {
                       acc[resource.category]++;
                       return acc;
                     },
-                    {} as Record<string, number>
+                    {} as Record<string, number>,
                   );
 
                   return Object.entries(categoryGroups)
@@ -549,7 +549,7 @@ const InterviewResourcesPage: React.FC = () => {
                         key={category}
                         onClick={() => {
                           const element = document.getElementById(
-                            `category-${category.replace(/[^a-zA-Z0-9]/g, "-")}`
+                            `category-${category.replace(/[^a-zA-Z0-9]/g, "-")}`,
                           );
                           element?.scrollIntoView({
                             behavior: "smooth",
@@ -605,7 +605,7 @@ const InterviewResourcesPage: React.FC = () => {
                     acc[resource.category].push(resource);
                     return acc;
                   },
-                  {} as Record<string, InterviewResource[]>
+                  {} as Record<string, InterviewResource[]>,
                 );
 
                 // Get sorted category names
@@ -655,14 +655,14 @@ const InterviewResourcesPage: React.FC = () => {
                             <div className="flex flex-col items-end space-y-1">
                               <span
                                 className={`text-xs px-2 py-1 rounded-full border ${getTypeColor(
-                                  resource.type
+                                  resource.type,
                                 )}`}
                               >
                                 {resource.type}
                               </span>
                               <span
                                 className={`text-xs px-2 py-1 rounded-full ${getDifficultyColor(
-                                  resource.difficulty || "All Levels"
+                                  resource.difficulty || "All Levels",
                                 )}`}
                               >
                                 {resource.difficulty || "All Levels"}

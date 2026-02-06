@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams, Navigate } from "react-router-dom";
 import { getCertificateVerification } from "../utils/api";
-import SEO from '../components/seo/SEO';
+import SEO from "../components/seo/SEO";
 
 interface VerificationData {
   isValid: boolean;
@@ -156,170 +156,172 @@ const CertificateVerificationPage: React.FC = () => {
 
   return (
     <>
-    <SEO
+      <SEO
         title="Certificate Verification"
-        description="Verify the authenticity of Edulume certificates easily and securely."
-        canonicalUrl="https://edulume.site/verify-certificate"
-    />
-    <div className="min-h-screen py-8">
-      <div className="max-w-4xl mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg
-              className="w-10 h-10 text-white"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
+        description="Verify the authenticity of Talvyn AI certificates easily and securely."
+        canonicalUrl="https://Talvyn AI.site/verify-certificate"
+      />
+      <div className="min-h-screen py-8">
+        <div className="max-w-4xl mx-auto px-4">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg
+                className="w-10 h-10 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+            <h1 className="text-3xl font-bold text-green-500 mb-2">
+              Certificate Verified
+            </h1>
+            <p className="text-gray-400">
+              This certificate has been successfully verified and is authentic.
+            </p>
           </div>
-          <h1 className="text-3xl font-bold text-green-500 mb-2">
-            Certificate Verified
-          </h1>
-          <p className="text-gray-400">
-            This certificate has been successfully verified and is authentic.
-          </p>
-        </div>
 
-        {/* Certificate Details */}
-        {certificateDetails && (
-          <div className="bg-gray-800 rounded-lg p-6 mb-6">
-            <h2 className="text-xl font-semibold text-white mb-6 border-b border-gray-700 pb-2">
-              Certificate Details
-            </h2>
+          {/* Certificate Details */}
+          {certificateDetails && (
+            <div className="bg-gray-800 rounded-lg p-6 mb-6">
+              <h2 className="text-xl font-semibold text-white mb-6 border-b border-gray-700 pb-2">
+                Certificate Details
+              </h2>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-1">
-                    Student Name
-                  </label>
-                  <p className="text-white font-semibold">
-                    {certificateDetails.studentName}
-                  </p>
-                </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-1">
+                      Student Name
+                    </label>
+                    <p className="text-white font-semibold">
+                      {certificateDetails.studentName}
+                    </p>
+                  </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-1">
-                    Course Name
-                  </label>
-                  <p className="text-white font-semibold">
-                    {certificateDetails.courseName}
-                  </p>
-                </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-1">
+                      Course Name
+                    </label>
+                    <p className="text-white font-semibold">
+                      {certificateDetails.courseName}
+                    </p>
+                  </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-1">
-                    Instructor
-                  </label>
-                  <p className="text-white">
-                    {certificateDetails.instructorName}
-                  </p>
-                </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-1">
+                      Instructor
+                    </label>
+                    <p className="text-white">
+                      {certificateDetails.instructorName}
+                    </p>
+                  </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-1">
-                    Completion Date
-                  </label>
-                  <p className="text-white">
-                    {certificateDetails.completionDate}
-                  </p>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-1">
-                    Final Score
-                  </label>
-                  <div className="flex items-center space-x-2">
-                    <div className="text-2xl font-bold text-green-500">
-                      {certificateDetails.score}%
-                    </div>
-                    <div className="text-gray-400">
-                      ({certificateDetails.marksObtained}/
-                      {certificateDetails.totalMarks} marks)
-                    </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-1">
+                      Completion Date
+                    </label>
+                    <p className="text-white">
+                      {certificateDetails.completionDate}
+                    </p>
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-1">
-                    Certificate ID
-                  </label>
-                  <p className="text-white font-mono text-sm bg-gray-700 p-2 rounded">
-                    {certificateDetails.certificateId}
-                  </p>
-                </div>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-1">
+                      Final Score
+                    </label>
+                    <div className="flex items-center space-x-2">
+                      <div className="text-2xl font-bold text-green-500">
+                        {certificateDetails.score}%
+                      </div>
+                      <div className="text-gray-400">
+                        ({certificateDetails.marksObtained}/
+                        {certificateDetails.totalMarks} marks)
+                      </div>
+                    </div>
+                  </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-1">
-                    Issue Date
-                  </label>
-                  <p className="text-white">{certificateDetails.issueDate}</p>
-                </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-1">
+                      Certificate ID
+                    </label>
+                    <p className="text-white font-mono text-sm bg-gray-700 p-2 rounded">
+                      {certificateDetails.certificateId}
+                    </p>
+                  </div>
 
-                <div className="flex items-center space-x-2 text-green-500">
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                    />
-                  </svg>
-                  <span className="font-semibold">Verified & Authentic</span>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-1">
+                      Issue Date
+                    </label>
+                    <p className="text-white">{certificateDetails.issueDate}</p>
+                  </div>
+
+                  <div className="flex items-center space-x-2 text-green-500">
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                      />
+                    </svg>
+                    <span className="font-semibold">Verified & Authentic</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Institution Info */}
-        <div className="bg-gray-800 rounded-lg p-6">
-          <div className="flex items-center space-x-4">
-            <img
-              src="/logo.png"
-              alt="Edulume"
-              className="w-16 h-16 object-contain"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.style.display = "none";
-              }}
-            />
-            <div>
-              <h3 className="text-lg font-semibold text-green-500">Edulume</h3>
-              <p className="text-gray-400">
-                Professional Certification Authority
-              </p>
-              <p className="text-sm text-gray-500">
-                Advancing Digital Excellence Through Innovation
-              </p>
+          {/* Institution Info */}
+          <div className="bg-gray-800 rounded-lg p-6">
+            <div className="flex items-center space-x-4">
+              <img
+                src="/logo.png"
+                alt="Talvyn AI"
+                className="w-16 h-16 object-contain"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = "none";
+                }}
+              />
+              <div>
+                <h3 className="text-lg font-semibold text-green-500">
+                  Talvyn AI
+                </h3>
+                <p className="text-gray-400">
+                  Professional Certification Authority
+                </p>
+                <p className="text-sm text-gray-500">
+                  Advancing Digital Excellence Through Innovation
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Security Notice */}
-        <div className="text-center mt-8">
-          <p className="text-sm text-gray-500">
-            This verification is valid at the time of scanning. For any
-            questions about this certificate, please contact Edulume.
-          </p>
+          {/* Security Notice */}
+          <div className="text-center mt-8">
+            <p className="text-sm text-gray-500">
+              This verification is valid at the time of scanning. For any
+              questions about this certificate, please contact Talvyn AI.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

@@ -14,4 +14,4 @@ Disallow: /roadmaps/create
 Disallow: /courses/*/test/*
 
 # Sitemap location
-Sitemap: https://edulume.site/sitemap.xml
+Sitemap: https://Talvyn AI.site/sitemap.xml

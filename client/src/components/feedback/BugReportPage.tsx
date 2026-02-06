@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Bug, Send, ArrowLeft, Monitor, Smartphone } from "lucide-react";
-import SEO from '../../components/seo/SEO';
-
+import SEO from "../../components/seo/SEO";
 
 const BugReportPage: React.FC = () => {
   const navigate = useNavigate();
@@ -108,7 +107,7 @@ const BugReportPage: React.FC = () => {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     setFormData({
       ...formData,
@@ -153,194 +152,194 @@ const BugReportPage: React.FC = () => {
 
   return (
     <>
-    <SEO
+      <SEO
         title="Report a Bug"
-        description="Found a bug? Report it here and help us improve Edulume."
-        canonicalUrl="https://edulume.site/report-bug"
+        description="Found a bug? Report it here and help us improve Talvyn AI."
+        canonicalUrl="https://Talvyn AI.site/report-bug"
       />
-    <div className="min-h-screen pt-20 px-4">
-      <div className="max-w-2xl mx-auto">
-        <button
-          onClick={() => navigate("/")}
-          className="flex items-center text-red-400 hover:text-white mb-6 transition-colors"
-        >
-          <ArrowLeft className="mr-2" size={20} />
-          Back to Home
-        </button>
+      <div className="min-h-screen pt-20 px-4">
+        <div className="max-w-2xl mx-auto">
+          <button
+            onClick={() => navigate("/")}
+            className="flex items-center text-red-400 hover:text-white mb-6 transition-colors"
+          >
+            <ArrowLeft className="mr-2" size={20} />
+            Back to Home
+          </button>
 
-        <div className="smoke-card p-8">
-          <div className="flex items-center mb-6">
-            <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mr-4 shadow-lg">
-              <Bug className="text-white" size={24} />
-            </div>
-            <div>
-              <h1 className="text-3xl font-alien font-bold text-red-400">
-                Report a Bug
-              </h1>
-              <p className="text-gray-400">
-                Help us fix issues and improve Edulume
-              </p>
-            </div>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Bug Title *
-              </label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-400 transition-colors"
-                placeholder="Brief description of the bug"
-              />
+          <div className="smoke-card p-8">
+            <div className="flex items-center mb-6">
+              <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mr-4 shadow-lg">
+                <Bug className="text-white" size={24} />
+              </div>
+              <div>
+                <h1 className="text-3xl font-alien font-bold text-red-400">
+                  Report a Bug
+                </h1>
+                <p className="text-gray-400">
+                  Help us fix issues and improve Talvyn AI
+                </p>
+              </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Severity *
-              </label>
-              <select
-                name="severity"
-                value={formData.severity}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-red-400 transition-colors"
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Bug Title *
+                </label>
+                <input
+                  type="text"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-400 transition-colors"
+                  placeholder="Brief description of the bug"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Severity *
+                </label>
+                <select
+                  name="severity"
+                  value={formData.severity}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-red-400 transition-colors"
+                >
+                  {severityLevels.map((level) => (
+                    <option key={level.value} value={level.value}>
+                      {level.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Description *
+                </label>
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                  rows={4}
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-400 transition-colors resize-vertical"
+                  placeholder="Describe the bug in detail"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Steps to Reproduce
+                </label>
+                <textarea
+                  name="stepsToReproduce"
+                  value={formData.stepsToReproduce}
+                  onChange={handleChange}
+                  rows={4}
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-400 transition-colors resize-vertical"
+                  placeholder="1. Go to...&#10;2. Click on...&#10;3. See error..."
+                />
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Expected Behavior
+                  </label>
+                  <textarea
+                    name="expectedBehavior"
+                    value={formData.expectedBehavior}
+                    onChange={handleChange}
+                    rows={3}
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-400 transition-colors resize-vertical"
+                    placeholder="What should happen?"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Actual Behavior
+                  </label>
+                  <textarea
+                    name="actualBehavior"
+                    value={formData.actualBehavior}
+                    onChange={handleChange}
+                    rows={3}
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-400 transition-colors resize-vertical"
+                    placeholder="What actually happens?"
+                  />
+                </div>
+              </div>
+
+              <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+                <h3 className="text-sm font-medium text-gray-300 mb-3 flex items-center">
+                  <Monitor className="mr-2" size={16} />
+                  System Information (Auto-detected)
+                </h3>
+                <div className="space-y-2">
+                  <div>
+                    <label className="block text-xs text-gray-400 mb-1">
+                      Browser Info
+                    </label>
+                    <input
+                      type="text"
+                      name="browserInfo"
+                      value={formData.browserInfo}
+                      onChange={handleChange}
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-sm text-gray-300 focus:outline-none focus:border-red-400"
+                      readOnly
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-gray-400 mb-1">
+                      Device Info
+                    </label>
+                    <input
+                      type="text"
+                      name="deviceInfo"
+                      value={formData.deviceInfo}
+                      onChange={handleChange}
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-sm text-gray-300 focus:outline-none focus:border-red-400"
+                      readOnly
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+                <h3 className="text-sm font-medium text-gray-300 mb-2">
+                  🐛 Tips for effective bug reports:
+                </h3>
+                <ul className="text-sm text-gray-400 space-y-1">
+                  <li>• Be specific and clear in your description</li>
+                  <li>• Include exact error messages if any</li>
+                  <li>• Mention what you were trying to do</li>
+                  <li>
+                    • Include screenshots if helpful (you can attach them later)
+                  </li>
+                </ul>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg font-medium transition-colors flex items-center justify-center"
               >
-                {severityLevels.map((level) => (
-                  <option key={level.value} value={level.value}>
-                    {level.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Description *
-              </label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                required
-                rows={4}
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-400 transition-colors resize-vertical"
-                placeholder="Describe the bug in detail"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Steps to Reproduce
-              </label>
-              <textarea
-                name="stepsToReproduce"
-                value={formData.stepsToReproduce}
-                onChange={handleChange}
-                rows={4}
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-400 transition-colors resize-vertical"
-                placeholder="1. Go to...&#10;2. Click on...&#10;3. See error..."
-              />
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Expected Behavior
-                </label>
-                <textarea
-                  name="expectedBehavior"
-                  value={formData.expectedBehavior}
-                  onChange={handleChange}
-                  rows={3}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-400 transition-colors resize-vertical"
-                  placeholder="What should happen?"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Actual Behavior
-                </label>
-                <textarea
-                  name="actualBehavior"
-                  value={formData.actualBehavior}
-                  onChange={handleChange}
-                  rows={3}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-400 transition-colors resize-vertical"
-                  placeholder="What actually happens?"
-                />
-              </div>
-            </div>
-
-            <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
-              <h3 className="text-sm font-medium text-gray-300 mb-3 flex items-center">
-                <Monitor className="mr-2" size={16} />
-                System Information (Auto-detected)
-              </h3>
-              <div className="space-y-2">
-                <div>
-                  <label className="block text-xs text-gray-400 mb-1">
-                    Browser Info
-                  </label>
-                  <input
-                    type="text"
-                    name="browserInfo"
-                    value={formData.browserInfo}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-sm text-gray-300 focus:outline-none focus:border-red-400"
-                    readOnly
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-gray-400 mb-1">
-                    Device Info
-                  </label>
-                  <input
-                    type="text"
-                    name="deviceInfo"
-                    value={formData.deviceInfo}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-sm text-gray-300 focus:outline-none focus:border-red-400"
-                    readOnly
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
-              <h3 className="text-sm font-medium text-gray-300 mb-2">
-                🐛 Tips for effective bug reports:
-              </h3>
-              <ul className="text-sm text-gray-400 space-y-1">
-                <li>• Be specific and clear in your description</li>
-                <li>• Include exact error messages if any</li>
-                <li>• Mention what you were trying to do</li>
-                <li>
-                  • Include screenshots if helpful (you can attach them later)
-                </li>
-              </ul>
-            </div>
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg font-medium transition-colors flex items-center justify-center"
-            >
-              {isSubmitting ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-              ) : (
-                <Send className="mr-2" size={20} />
-              )}
-              {isSubmitting ? "Submitting..." : "Submit Bug Report"}
-            </button>
-          </form>
+                {isSubmitting ? (
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                ) : (
+                  <Send className="mr-2" size={20} />
+                )}
+                {isSubmitting ? "Submitting..." : "Submit Bug Report"}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

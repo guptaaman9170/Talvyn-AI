@@ -14,13 +14,13 @@ const SEO: React.FC<SEOProps> = ({
   title,
   description,
   keywords,
-  ogImage = "https://edulume.site/og-image.png",
+  ogImage = "https://Talvyn AI.site/og-image.png",
   ogType = "website",
   twitterCard = "summary_large_image",
   canonicalUrl,
 }) => {
-  const siteUrl = "https://edulume.site";
-  const fullTitle = `${title} | Edulume`;
+  const siteUrl = "https://Talvyn AI.site";
+  const fullTitle = `${title} | Talvyn AI`;
   const currentUrl = canonicalUrl || `${siteUrl}${window.location.pathname}`;
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const SEO: React.FC<SEOProps> = ({
     const updateMetaTag = (
       selector: string,
       attribute: string,
-      content: string
+      content: string,
     ) => {
       let element = document.querySelector(selector);
       if (!element) {
@@ -58,7 +58,7 @@ const SEO: React.FC<SEOProps> = ({
     updateMetaTag('meta[property="og:image"]', "content", ogImage);
     updateMetaTag('meta[property="og:url"]', "content", currentUrl);
     updateMetaTag('meta[property="og:type"]', "content", ogType);
-    updateMetaTag('meta[property="og:site_name"]', "content", "Edulume");
+    updateMetaTag('meta[property="og:site_name"]', "content", "Talvyn AI");
 
     // Twitter Card tags
     updateMetaTag('meta[name="twitter:card"]', "content", twitterCard);
@@ -68,7 +68,7 @@ const SEO: React.FC<SEOProps> = ({
 
     // Canonical URL
     let canonical = document.querySelector(
-      'link[rel="canonical"]'
+      'link[rel="canonical"]',
     ) as HTMLLinkElement;
     if (!canonical) {
       canonical = document.createElement("link");

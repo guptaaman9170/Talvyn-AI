@@ -18,37 +18,37 @@
 
 #### Home Page (`/`)
 
-- **Title**: "Your Ultimate Learning Hub | Edulume"
+- **Title**: "Your Ultimate Learning Hub | Talvyn AI"
 - **Description**: "Master tech skills with AI-powered courses, roadmaps, and community discussions. Free PDFs, ebooks, and interview resources for developers."
 - **Keywords**: online learning, programming courses, tech roadmaps, developer community, free coding resources, interview prep
 
 #### Courses Page (`/courses`)
 
-- **Title**: "Explore Courses | Edulume"
+- **Title**: "Explore Courses | Talvyn AI"
 - **Description**: "Browse AI-powered courses on programming, web development, data science, and more. Learn at your own pace with interactive content."
 - **Keywords**: online courses, programming tutorials, web development, data science, coding bootcamp
 
 #### Roadmaps Page (`/roadmaps`)
 
-- **Title**: "Learning Roadmaps | Edulume"
+- **Title**: "Learning Roadmaps | Talvyn AI"
 - **Description**: "Follow structured learning paths for web development, data science, DevOps, and more. Step-by-step guides to master tech skills."
 - **Keywords**: learning roadmap, developer path, programming guide, career roadmap, tech skills
 
 #### Discussions Page (`/discussions`)
 
-- **Title**: "Community Discussions | Edulume"
+- **Title**: "Community Discussions | Talvyn AI"
 - **Description**: "Join developer discussions, ask questions, share knowledge, and connect with the tech community. Get help and help others learn."
 - **Keywords**: developer community, programming forum, tech discussions, coding help, Q&A
 
 #### PDFs Page (`/pdfs`)
 
-- **Title**: "Free Programming PDFs | Edulume"
+- **Title**: "Free Programming PDFs | Talvyn AI"
 - **Description**: "Download free programming PDFs, tutorials, and technical documentation. Resources for developers, students, and tech enthusiasts."
 - **Keywords**: free programming pdfs, coding tutorials, tech documentation, developer resources
 
 #### Ebooks Page (`/ebooks`)
 
-- **Title**: "Free Tech Ebooks | Edulume"
+- **Title**: "Free Tech Ebooks | Talvyn AI"
 - **Description**: "Access free ebooks on programming, web development, data science, and software engineering. Learn from comprehensive digital books."
 - **Keywords**: free ebooks, programming books, tech ebooks, coding books, software development
 
@@ -74,7 +74,7 @@ You should add dynamic SEO to:
   title={course.title}
   description={course.description.substring(0, 160)}
   keywords={course.tags?.join(", ")}
-  ogImage={course.thumbnail || "https://edulume.site/og-image.png"}
+  ogImage={course.thumbnail || "https://Talvyn AI.site/og-image.png"}
 />
 ```
 
@@ -87,13 +87,11 @@ You should add dynamic SEO to:
 ### Additional Optimizations
 
 1. **Structured Data (JSON-LD)**
-
    - Add Course schema for course pages
    - Add BreadcrumbList schema
    - Add Organization schema
 
 2. **Performance**
-
    - Optimize images (WebP format)
    - Lazy load images
    - Minimize bundle size
@@ -117,8 +115,8 @@ const MyPage = () => {
         title="Page Title"
         description="Page description for search engines"
         keywords="keyword1, keyword2, keyword3"
-        ogImage="https://edulume.site/custom-image.png"
-        canonicalUrl="https://edulume.site/custom-path"
+        ogImage="https://Talvyn AI.site/custom-image.png"
+        canonicalUrl="https://Talvyn AI.site/custom-path"
       />
       {/* Your page content */}
     </>

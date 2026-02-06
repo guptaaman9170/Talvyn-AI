@@ -79,7 +79,7 @@ export class CertificateGenerator {
     this.doc.setTextColor(45, 45, 45);
     this.doc.setFontSize(16);
     this.doc.setFont("times", "bold");
-    this.doc.text("Edulume", 55, 35);
+    this.doc.text("Talvyn AI", 55, 35);
 
     this.doc.setFontSize(9);
     this.doc.setFont("times", "normal");
@@ -164,7 +164,7 @@ export class CertificateGenerator {
           sigX,
           sigY,
           sigWidth,
-          sigHeight
+          sigHeight,
         );
       }
     } catch (error) {
@@ -257,7 +257,7 @@ export class CertificateGenerator {
 }
 
 export const generateAndDownloadCertificate = async (
-  data: CertificateData
+  data: CertificateData,
 ): Promise<void> => {
   try {
     console.log("🏆 Starting certificate generation with data:", data);

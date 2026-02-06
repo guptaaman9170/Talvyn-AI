@@ -6,7 +6,7 @@ export default async function handler(req, res) {
       {
         headers: { Accept: "application/xml" },
         signal: AbortSignal.timeout(5000), // 5 second timeout
-      }
+      },
     );
 
     if (response.ok) {
@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error(
       "Dynamic sitemap failed, using static fallback:",
-      error.message
+      error.message,
     );
   }
 
@@ -26,57 +26,57 @@ export default async function handler(req, res) {
   const staticSitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://edulume.site</loc>
+    <loc>https://Talvyn AI.site</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://edulume.site/courses</loc>
+    <loc>https://Talvyn AI.site/courses</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://edulume.site/roadmaps</loc>
+    <loc>https://Talvyn AI.site/roadmaps</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://edulume.site/discussions</loc>
+    <loc>https://Talvyn AI.site/discussions</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://edulume.site/pdfs</loc>
+    <loc>https://Talvyn AI.site/pdfs</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://edulume.site/ebooks</loc>
+    <loc>https://Talvyn AI.site/ebooks</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://edulume.site/interview-resources</loc>
+    <loc>https://Talvyn AI.site/interview-resources</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://edulume.site/pdf-chatbot</loc>
+    <loc>https://Talvyn AI.site/pdf-chatbot</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://edulume.site/verify-certificate</loc>
+    <loc>https://Talvyn AI.site/verify-certificate</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://edulume.site/suggest-feature</loc>
+    <loc>https://Talvyn AI.site/suggest-feature</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://edulume.site/report-bug</loc>
+    <loc>https://Talvyn AI.site/report-bug</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>

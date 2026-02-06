@@ -50,7 +50,7 @@ const LandingPage: React.FC = () => {
             {/* Main Headline */}
             <div className="mb-8 sm:mb-12">
               <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-alien font-black mb-4 sm:mb-6 glow-text">
-                Edulume
+                Talvyn AI
               </h1>
               <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-4 sm:mb-6 font-cyber">
                 Master Tech Skills with AI-Powered Learning
@@ -352,7 +352,7 @@ const LandingPage: React.FC = () => {
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12 sm:mb-16">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-alien font-bold mb-4 glow-text">
-                Why Choose Edulume?
+                Why Choose Talvyn AI?
               </h2>
               <p className="text-sm sm:text-base md:text-lg text-gray-400 max-w-2xl mx-auto px-4">
                 Built for learners, by learners. Everything you need in one
