@@ -1,3 +1,7 @@
 .vscode
 myapp
 cmd.md
+.env
+node_modules
+__pycache__/
+dist
