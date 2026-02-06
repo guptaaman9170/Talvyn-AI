@@ -1,0 +1,514 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  username          String?  @unique
+  email             String   @unique
+  passwordHash      String?  @map("password_hash")
+  isVerified        Boolean  @default(false) @map("is_verified")
+  verificationToken String?  @map("verification_token")
+  resetToken        String?  @map("reset_token")
+  resetTokenExpires DateTime? @map("reset_token_expires")
+  createdAt         DateTime @default(now()) @map("created_at")
+  
+  // OAuth fields
+  googleId          String?  @map("google_id")
+  authProvider      String   @default("local") @map("auth_provider") // "local" or "google"
+  profilePicture    String?  @map("profile_picture")
+  needsUsername     Boolean  @default(false) @map("needs_username")
+  
+  @@index([googleId], map: "users_google_id_key")
+
+  // Relations
+  pdfs              Pdf[]
+  ebooks            Ebook[]
+  discussions       Discussion[]
+  discussionAnswers DiscussionAnswer[]
+  discussionReplies DiscussionReply[]
+  discussionVotes   DiscussionVote[]
+  answerVotes       AnswerVote[]
+  replyVotes        ReplyVote[]
+  notifications     Notification[] @relation("UserNotifications")
+  sentNotifications Notification[] @relation("NotificationSender")
+  courses           Course[]
+  bookmarkedCourses CourseBookmark[]
+  enrolledCourses   CourseEnrollment[]
+  chapterProgress   ChapterProgress[]
+  courseTests       CourseTest[]
+  roadmaps          Roadmap[]
+  bookmarkedRoadmaps RoadmapBookmark[]
+  featureSuggestions FeatureSuggestion[]
+  bugReports        BugReport[]
+  pdfChatSessions   PdfChatSession[]
+  vault             Vault?
+
+  @@map("users")
+}
+
+model Otp {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String
+  otpCode   String   @map("otp_code")
+  otpType   String   @map("otp_type") // 'signup' or 'reset'
+  expiresAt DateTime @map("expires_at")
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("otps")
+}
+
+model Pdf {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  title            String
+  description      String
+  semester         String
+  course           String?
+  department       String?
+  yearOfStudy      String?  @map("year_of_study")
+  blobUrl          String   @map("blob_url")
+  uploadedByUserId String   @map("uploaded_by_user_id") @db.ObjectId
+  uploadDate       DateTime @default(now()) @map("upload_date")
+
+  // Relations
+  uploadedBy User @relation(fields: [uploadedByUserId], references: [id])
+
+  @@map("pdfs")
+}
+
+model Discussion {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  content   String
+  category  String
+  tags      String?
+  images    String?
+  authorId  String   @map("author_id") @db.ObjectId
+  views     Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  author  User               @relation(fields: [authorId], references: [id])
+  answers DiscussionAnswer[]
+  votes   DiscussionVote[]
+
+  // Performance indexes (Fix #10)
+  @@index([category, createdAt])
+  @@index([authorId, createdAt])
+  @@index([createdAt])
+  @@map("discussions")
+}
+
+model DiscussionAnswer {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  discussionId String   @map("discussion_id") @db.ObjectId
+  content      String
+  images       String?
+  authorId     String   @map("author_id") @db.ObjectId
+  isBestAnswer Boolean  @default(false) @map("is_best_answer")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  discussion Discussion        @relation(fields: [discussionId], references: [id])
+  author     User              @relation(fields: [authorId], references: [id])
+  replies    DiscussionReply[]
+  votes      AnswerVote[]
+
+  // Performance indexes (Fix #10)
+  @@index([discussionId, createdAt])
+  @@index([isBestAnswer])
+  @@map("discussion_answers")
+}
+
+model DiscussionReply {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  answerId  String   @map("answer_id") @db.ObjectId
+  content   String
+  images    String?
+  authorId  String   @map("author_id") @db.ObjectId
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  answer DiscussionAnswer @relation(fields: [answerId], references: [id])
+  author User             @relation(fields: [authorId], references: [id])
+  votes  ReplyVote[]
+
+  @@map("discussion_replies")
+}
+
+model DiscussionVote {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  discussionId String   @map("discussion_id") @db.ObjectId
+  userId       String   @map("user_id") @db.ObjectId
+  voteType     String   @map("vote_type") // 'up' or 'down'
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  // Relations
+  discussion Discussion @relation(fields: [discussionId], references: [id])
+  user       User       @relation(fields: [userId], references: [id])
+
+  @@unique([discussionId, userId])
+  @@map("discussion_votes")
+}
+
+model AnswerVote {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  answerId  String   @map("answer_id") @db.ObjectId
+  userId    String   @map("user_id") @db.ObjectId
+  voteType  String   @map("vote_type") // 'up' or 'down'
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  answer DiscussionAnswer @relation(fields: [answerId], references: [id])
+  user   User             @relation(fields: [userId], references: [id])
+
+  @@unique([answerId, userId])
+  @@map("answer_votes")
+}
+
+model ReplyVote {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  replyId   String   @map("reply_id") @db.ObjectId
+  userId    String   @map("user_id") @db.ObjectId
+  voteType  String   @map("vote_type") // 'up' or 'down'
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  reply DiscussionReply @relation(fields: [replyId], references: [id])
+  user  User            @relation(fields: [userId], references: [id])
+
+  @@unique([replyId, userId])
+  @@map("reply_votes")
+}
+
+model Ebook {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  title            String
+  description      String
+  semester         String
+  course           String?
+  department       String?
+  yearOfStudy      String?  @map("year_of_study")
+  blobUrl          String   @map("blob_url")
+  uploadedByUserId String   @map("uploaded_by_user_id") @db.ObjectId
+  uploadDate       DateTime @default(now()) @map("upload_date")
+
+  // Relations
+  uploadedBy User @relation(fields: [uploadedByUserId], references: [id])
+
+  @@map("ebooks")
+}
+
+model Notification {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String   @map("user_id") @db.ObjectId
+  type         String
+  title        String
+  message      String
+  relatedId    String?  @map("related_id")
+  relatedType  String?  @map("related_type")
+  fromUserId   String?  @map("from_user_id") @db.ObjectId
+  fromUsername String?  @map("from_username")
+  isRead       Boolean  @default(false) @map("is_read")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  // Relations
+  user     User  @relation("UserNotifications", fields: [userId], references: [id])
+  fromUser User? @relation("NotificationSender", fields: [fromUserId], references: [id])
+
+  @@map("notifications")
+}
+
+model Course {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  topic       String
+  authorId    String   @map("author_id") @db.ObjectId
+  isPublic    Boolean  @default(true) @map("is_public")
+  views       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  author      User               @relation(fields: [authorId], references: [id])
+  chapters    CourseChapter[]
+  bookmarks   CourseBookmark[]
+  enrollments CourseEnrollment[]
+  tests       CourseTest[]
+
+  @@map("courses")
+}
+
+model CourseChapter {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  courseId    String   @map("course_id") @db.ObjectId
+  title       String
+  description String
+  content     String?
+  orderIndex  Int      @map("order_index")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  course   Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  progress ChapterProgress[]
+
+  @@map("course_chapters")
+}
+
+model CourseBookmark {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  courseId  String   @map("course_id") @db.ObjectId
+  userId    String   @map("user_id") @db.ObjectId
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([courseId, userId])
+  @@map("course_bookmarks")
+}
+
+model Roadmap {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  topic       String
+  content     String   // JSON string containing the roadmap data
+  authorId    String   @map("author_id") @db.ObjectId
+  isPublic    Boolean  @default(true) @map("is_public")
+  views       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  author    User              @relation(fields: [authorId], references: [id])
+  bookmarks RoadmapBookmark[]
+
+  @@map("roadmaps")
+}
+
+model RoadmapBookmark {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  roadmapId String   @map("roadmap_id") @db.ObjectId
+  userId    String   @map("user_id") @db.ObjectId
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  roadmap Roadmap @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@unique([roadmapId, userId])
+  @@map("roadmap_bookmarks")
+}
+
+model FeatureSuggestion {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  category    String   // 'ui', 'functionality', 'performance', 'other'
+  priority    String   @default("medium") // 'low', 'medium', 'high'
+  status      String   @default("pending") // 'pending', 'in-progress', 'completed', 'rejected'
+  userEmail   String?  @map("user_email")
+  userName    String?  @map("user_name")
+  userId      String?  @map("user_id") @db.ObjectId
+  adminNotes  String?  @map("admin_notes")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user User? @relation(fields: [userId], references: [id])
+
+  @@map("feature_suggestions")
+}
+
+model BugReport {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  description   String
+  stepsToReproduce String? @map("steps_to_reproduce")
+  expectedBehavior String? @map("expected_behavior")
+  actualBehavior   String? @map("actual_behavior")
+  severity      String   @default("medium") // 'low', 'medium', 'high', 'critical'
+  status        String   @default("open") // 'open', 'in-progress', 'resolved', 'closed'
+  browserInfo   String?  @map("browser_info")
+  deviceInfo    String?  @map("device_info")
+  userEmail     String?  @map("user_email")
+  userName      String?  @map("user_name")
+  userId        String?  @map("user_id") @db.ObjectId
+  adminNotes    String?  @map("admin_notes")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user User? @relation(fields: [userId], references: [id])
+
+  @@map("bug_reports")
+}
+
+model PdfChatSession {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId             String   @map("user_id") @db.ObjectId
+  sessionId          String   @unique @map("session_id")
+  pdfUrl             String   @map("pdf_url")
+  pdfName            String   @map("pdf_name")
+  cloudinaryPublicId String?  @map("cloudinary_public_id")
+  isActive           Boolean  @default(true) @map("is_active")
+  createdAt          DateTime @default(now()) @map("created_at")
+  endedAt            DateTime? @map("ended_at")
+
+  // Relations
+  user     User              @relation(fields: [userId], references: [id])
+  messages PdfChatMessage[]
+
+  @@map("pdf_chat_sessions")
+}
+
+model PdfChatMessage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionId String   @map("session_id") @db.ObjectId
+  message   String
+  response  String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  session PdfChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@map("pdf_chat_messages")
+}
+
+model CourseEnrollment {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  courseId     String    @map("course_id") @db.ObjectId
+  userId       String    @map("user_id") @db.ObjectId
+  enrolledAt   DateTime  @default(now()) @map("enrolled_at")
+  completedAt  DateTime? @map("completed_at")
+  isCompleted  Boolean   @default(false) @map("is_completed")
+  progressPercentage Int @default(0) @map("progress_percentage")
+  lastAccessedAt DateTime? @map("last_accessed_at")
+
+  // Relations
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([courseId, userId])
+  @@map("course_enrollments")
+}
+
+model ChapterProgress {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  chapterId   String   @map("chapter_id") @db.ObjectId
+  userId      String   @map("user_id") @db.ObjectId
+  isCompleted Boolean  @default(false) @map("is_completed")
+  completedAt DateTime? @map("completed_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  chapter CourseChapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  user    User          @relation(fields: [userId], references: [id])
+
+  @@unique([chapterId, userId])
+  @@map("chapter_progress")
+}
+
+model CourseTest {
+  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
+  courseId           String    @map("course_id") @db.ObjectId
+  userId             String    @map("user_id") @db.ObjectId
+  questions          String    // JSON string containing the test questions
+  testInstructions   String    @map("test_instructions") // JSON string containing test instructions
+  answers            String?   // JSON string containing user answers
+  evaluationResults  String?   @map("evaluation_results") // JSON string containing evaluation results
+  timeLimit          Int       @map("time_limit") @default(180) // Time limit in minutes
+  passingScore       Int       @map("passing_score") @default(80) // Passing score percentage
+  totalMarks         Int       @map("total_marks") @default(100)
+  marksObtained      Float?    @map("marks_obtained")
+  score              Int?      // Score as percentage
+  hasPassed          Boolean?  @map("has_passed")
+  status             String    @default("in_progress") // 'in_progress', 'processing', 'completed', 'evaluation_failed', 'expired'
+  createdAt          DateTime  @default(now()) @map("created_at")
+  submittedAt        DateTime? @map("submitted_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([courseId, userId, createdAt])
+  @@map("course_tests")
+}
+
+model Vault {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String   @map("user_id") @db.ObjectId @unique
+  storageUsed  Int      @default(0) @map("storage_used")
+  storageLimit Int      @default(524288000) @map("storage_limit") // 500 MB in bytes
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  // Relations
+  user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  folders VaultFolder[]
+
+  @@map("vaults")
+}
+
+model VaultFolder {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  vaultId       String       @map("vault_id") @db.ObjectId
+  parentId      String?      @map("parent_id") @db.ObjectId
+  name          String
+  isSystemFolder Boolean     @default(false) @map("is_system_folder")
+  createdAt     DateTime     @default(now()) @map("created_at")
+
+  // Relations
+  vault    Vault         @relation(fields: [vaultId], references: [id], onDelete: Cascade)
+  parent   VaultFolder?  @relation("FolderChildren", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  children VaultFolder[] @relation("FolderChildren")
+  files    VaultFile[]
+
+  @@map("vault_folders")
+}
+
+model VaultFile {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  folderId  String   @map("folder_id") @db.ObjectId
+  name      String
+  type      String
+  size      Int
+  r2Key     String   @map("r2_key")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  folder  VaultFolder  @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  outputs VaultOutput[]
+
+  @@map("vault_files")
+}
+
+model VaultOutput {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  fileId    String   @map("file_id") @db.ObjectId
+  type      String
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  file VaultFile @relation(fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@map("vault_outputs")
+}
